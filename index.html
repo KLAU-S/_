@@ -547,32 +547,85 @@
             <div class="centered__text">
                 <h4 class="playground__heading reveal">Recent Photography by me</h4>
             </div>
-            <div class="w-embed">
-                <style>
-                    .playground__image {
-                        pointer-events: none;
-                    }
+            <div id="pconly">
+                <div class="w-embed">
+                    <style>
 
-                    @media only screen and (min-width: 992px) {
-                        .playground__image:last-of-type {
-                            transform: translateY(-80%);
+                        #pconly { 
+                            display:none; 
                         }
-                    }
+                        @media screen and (min-width: 500px) {
+                            #pconly { 
+                                display:block; 
+                            }
+                        }
 
-                    @media only screen and (max-width: 991px) {
-                        .playground__item:last-of-type {
-                            border-bottom: 0.75px solid #1d1d1d;
+                        .playground__image {
+                            pointer-events: none;
                         }
-                    }
-                </style>
+
+                        @media only screen and (min-width: 992px) {
+                            .playground__image:last-of-type {
+                                transform: translateY(-80%);
+                            }
+                        }
+
+                        @media only screen and (max-width: 991px) {
+                            .playground__item:last-of-type {
+                                border-bottom: 0.75px solid #1d1d1d;
+                            }
+                        }
+                    </style>
+                </div>
+
+                <section class="section padding__top-bottom less--top wf-section">
+                    <div class="container is--full__width">
+                        <div data-scroll="1" class="img__wrapper">
+                            <div data-scroll="1" class="img__cover"></div><video autoplay loop muted playsinline src="./assets/gifinal.mp4" loading="lazy" alt="" class="full__width--image" ></video></div>
+                    </div>
+                </section>
             </div>
 
-            <section class="section padding__top-bottom less--top wf-section">
-                <div class="container is--full__width">
-                    <div data-scroll="1" class="img__wrapper">
-                        <div data-scroll="1" class="img__cover"></div><video autoplay loop muted playsinline src="./assets/giffinal.mp4" loading="lazy" alt="" class="full__width--image" ></video></div>
+            <!---------------------->
+            <div id="mobileshow">
+                <div class="w-embed">
+                    <style>
+
+                        #mobileshow { 
+                            display:none; 
+                        }
+                        @media screen and (max-width: 500px) {
+                            #mobileshow { 
+                                display:block; 
+                            }
+                        }
+                        .playground__image {
+                            pointer-events: none;
+                        }
+
+                        @media only screen and (min-width: 992px) {
+                            .playground__image:last-of-type {
+                                transform: translateY(-80%);
+                            }
+                        }
+
+                        @media only screen and (max-width: 991px) {
+                            .playground__item:last-of-type {
+                                border-bottom: 0.75px solid #1d1d1d;
+                            }
+                        }
+                    </style>
                 </div>
-            </section>
+
+                <section class="section padding__top-bottom less--top wf-section">
+                    <div class="container is--full__width">
+                        <div data-scroll="1" class="img__wrapper">
+                            <div data-scroll="1" class="img__cover"></div><video autoplay loop muted playsinline src="./assets/gifmobfinal.mp4" loading="lazy" alt="" class="full__width--image" ></video></div>
+                    </div>
+                </section>
+            </div>
+            <!---------------------->
+
 
             <section class="section padding__bottom wf-section">
                 <div class="container padding less--mobile">
