@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>our movie, anime &amp; game nights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8F1;
+    --ink: #5A4560;
+    --soft: #8A748F;
+    --pink: #E8648A;
+    --lilac: #B79CF2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--cream);
+    background-image: radial-gradient(#F4DADF 1px, transparent 1.3px);
+    background-size: 16px 16px;
+    font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+    color: var(--ink);
+    font-size: 17px;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 18px 60px; }
+
+  /* header */
+  header { text-align: center; margin-bottom: 30px; position: relative; }
+  h1 {
+    font-family: 'Pacifico', cursive;
+    font-weight: 400;
+    color: var(--pink);
+    font-size: clamp(26px, 5vw, 42px);
+    margin: 8px 0 14px;
+  }
+  .time-pill {
+    display: inline-block;
+    background: var(--lilac);
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 99px;
+    font-size: 19px;
+  }
+  .who-bar { margin-top: 14px; font-size: 15px; color: var(--soft); }
+  .who-bar button {
+    font: inherit; font-size: 14px; color: var(--pink); background: none; border: none;
+    text-decoration: underline; cursor: pointer; padding: 0 4px;
+  }
+  #banner {
+    display: none; margin: 14px auto 0; max-width: 560px; background: #FFE3E3; border: 1.5px dashed #E26A6A;
+    color: #8A3030; border-radius: 12px; padding: 10px 14px; font-size: 15px;
+  }
+
+  /* cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+    gap: 30px 22px;
+  }
+  .card {
+    --c: var(--pink);
+    position: relative;
+    background: #fff;
+    border: 2px dashed var(--c);
+    border-radius: 18px;
+    padding: 30px 16px 16px;
+    box-shadow: 3px 4px 0 #EBD3D8;
+    transform: rotate(var(--rot, 0deg));
+  }
+  .card::before { /* washi tape */
+    content: "";
+    position: absolute; top: -11px; left: 50%;
+    width: 72px; height: 20px; margin-left: -36px;
+    background: var(--c); opacity: .6;
+    transform: rotate(var(--tape, -3deg));
+    background-image: radial-gradient(rgba(255,255,255,.75) 2px, transparent 2.5px);
+    background-size: 14px 20px;
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: center; }
+  .day { font-family: 'Pacifico', cursive; color: var(--c); font-size: 22px; }
+  .pill {
+    background: var(--c); color: #fff; border-radius: 99px;
+    padding: 1px 11px; font-size: 14px; white-space: nowrap;
+  }
+  .headline { display: flex; align-items: center; gap: 14px; margin: 14px 0 12px; }
+  .icon {
+    width: 62px; height: 62px; flex: none; border-radius: 50%;
+    background: var(--c); display: grid; place-items: center;
+    outline: 2px dashed #fff; outline-offset: -5px;
+  }
+  .icon svg { width: 38px; height: 38px; }
+  .title { font-size: 23px; line-height: 1.1; }
+  .desc { color: var(--soft); font-size: 15px; text-align: center; margin: 0 4px 6px; }
+
+  label.field { display: block; font-size: 13px; color: var(--soft); margin: 10px 0 3px 4px; letter-spacing: .3px; }
+  input[type=text] {
+    width: 100%;
+    font-family: inherit; font-size: 17px; color: var(--ink);
+    background: #FFFCF8;
+    border: 1.5px solid color-mix(in srgb, var(--c) 45%, white);
+    border-radius: 10px;
+    padding: 7px 11px;
+    outline: none;
+  }
+  input[type=text]:focus { border-color: var(--c); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 20%, white); }
+  input::placeholder { color: #BDAFC2; }
+
+  .card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; gap: 8px; }
+  .watched {
+    font-family: inherit; font-size: 15px; cursor: pointer;
+    background: #fff; color: var(--c); border: 1.5px solid var(--c);
+    border-radius: 99px; padding: 3px 12px;
+  }
+  .watched.on { background: var(--c); color: #fff; }
+  .meta { font-size: 13px; color: var(--soft); text-align: right; }
+
+  .card.daily .desc { font-size: 17px; margin-top: 4px; }
+  .doodles { text-align: center; margin-top: 12px; color: var(--c); opacity: .75; letter-spacing: 6px; font-size: 14px; }
+
+  /* memories */
+  .memories { margin-top: 46px; }
+  .memories h2 { font-family: 'Pacifico', cursive; font-weight: 400; color: var(--pink); text-align: center; font-size: 26px; margin: 0 0 14px; }
+  .journal {
+    max-width: 640px; margin: 0 auto; background: #fff; border: 2px dashed #F2B8C6;
+    border-radius: 18px; padding: 10px 20px; box-shadow: 3px 4px 0 #EBD3D8;
+  }
+  .entry { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1.5px dotted #F2D3DB; align-items: baseline; flex-wrap: wrap; }
+  .entry:last-child { border-bottom: none; }
+  .entry .d { color: var(--soft); font-size: 14px; min-width: 52px; }
+  .entry .k { color: var(--pink); }
+  .entry .p { flex: 1; min-width: 120px; }
+  .entry .b { color: var(--soft); font-size: 14px; }
+  .empty { text-align: center; color: var(--soft); padding: 14px 0; }
+
+  .fresh { text-align: center; margin-top: 30px; }
+  .fresh button {
+    font: inherit; font-size: 15px; color: var(--soft); background: #fff;
+    border: 1.5px dashed #D9C7DE; border-radius: 99px; padding: 5px 16px; cursor: pointer;
+  }
+
+  /* who overlay */
+  #overlay {
+    position: fixed; inset: 0; background: rgba(255,248,241,.96); z-index: 10;
+    display: none; place-items: center; text-align: center; padding: 20px;
+  }
+  #overlay h2 { font-family: 'Pacifico', cursive; font-weight: 400; color: var(--pink); font-size: 32px; margin: 0 0 6px; }
+  #overlay p { margin: 0 0 22px; color: var(--soft); }
+  #overlay button {
+    font: inherit; font-size: 22px; margin: 6px; padding: 10px 30px; border-radius: 99px; cursor: pointer;
+    color: #fff; background: var(--lilac); border: none;
+  }
+  #overlay button:nth-of-type(2) { background: var(--pink); }
+</style>
+</head>
+<body>
+
+<div id="overlay">
+  <div>
+    <h2>hi there!</h2>
+    <p>who's looking at this page?</p>
+    <div id="who-buttons"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <h1>our movie, anime &amp; game nights</h1>
+    <span class="time-pill">every night at 10:00 PM</span>
+    <div class="who-bar" id="who-bar"></div>
+    <div id="banner"></div>
+  </header>
+
+  <main class="grid" id="grid"></main>
+
+  <section class="memories">
+    <h2>our little journal</h2>
+    <div class="journal" id="journal"><div class="empty">nothing here yet. tick "watched together" on a card and it lands here.</div></div>
+  </section>
+
+  <div class="fresh"><button id="fresh">start a fresh week</button></div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+  import {
+    getFirestore, doc, setDoc, addDoc, collection, onSnapshot,
+    query, orderBy, limit, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+
+  /* ====== EDIT THESE TWO NAMES ====== */
+  const NAMES = { a: "Me", b: "Liz Cutie" };
+  /* ================================== */
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDO65KivewKBfA_CnRBaL8Bs5eBbBppwHw",
+    authDomain: "hangout-schedule.firebaseapp.com",
+    projectId: "hangout-schedule",
+    storageBucket: "hangout-schedule.firebasestorage.app",
+    messagingSenderId: "1026963979691",
+    appId: "1:1026963979691:web:2739e69e059b016f8be6ee"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  /* ---------- icons ---------- */
+  const ICONS = {
+    anime: `<svg viewBox="-24 -24 48 48"><path fill="#fff" d="M0-20 L4-4 L20 0 L4 4 L0 20 L-4 4 L-20 0 L-4-4Z"/><path fill="#fff" d="M14-14 L15.5-9.5 L20-8 L15.5-6.5 L14-2 L12.5-6.5 L8-8 L12.5-9.5Z"/><path fill="#fff" d="M-14 10 L-12.8 13.2 L-9.5 14.5 L-12.8 15.8 L-14 19 L-15.2 15.8 L-18.5 14.5 L-15.2 13.2Z"/></svg>`,
+    game: `<svg viewBox="-24 -24 48 48"><rect x="-20" y="-9" width="40" height="22" rx="10" fill="#fff"/><circle cx="-14" cy="9" r="7" fill="#fff"/><circle cx="14" cy="9" r="7" fill="#fff"/><g class="cut"><rect x="-14" y="-1" width="10" height="3.4" rx="1" fill="var(--c)"/><rect x="-10.7" y="-4.3" width="3.4" height="10" rx="1" fill="var(--c)"/><circle cx="9" cy="-1" r="2.6" fill="var(--c)"/><circle cx="15" cy="4" r="2.6" fill="var(--c)"/></g></svg>`,
+    series: `<svg viewBox="-24 -24 48 48"><path d="M0-8 L-9-18 M0-8 L9-18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><rect x="-21" y="-9" width="42" height="29" rx="7" fill="#fff"/><rect x="-17" y="-5" width="34" height="21" rx="4" fill="var(--c)"/><path d="M-4 1 L-4 10 L5 5.5Z" fill="#fff"/></svg>`,
+    movie: `<svg viewBox="-24 -24 48 48"><rect x="-19" y="-3" width="38" height="22" rx="4" fill="#fff"/><g transform="translate(0 -9) rotate(-6)"><rect x="-20" y="-6" width="40" height="11" rx="3" fill="#fff"/><path fill="var(--c)" d="M-16-6h5l3 11h-5zM-6-6h5l3 11h-5zM4-6h5l3 11h-5zM14-6h4l-1 11h-4z"/></g><circle cx="0" cy="9" r="4.5" fill="var(--c)"/><path d="M-1.5 6.5 L-1.5 11.5 L2.8 9Z" fill="#fff"/></svg>`,
+    heart: `<svg viewBox="-24 -24 48 48"><path fill="#fff" d="M0 15 C-22 2 -14-14 0-6 C14-14 22 2 0 15Z"/><path fill="#fff" d="M16-12 c-4-3-8 1-5 4 l5 4 5-4 c3-3-1-7-5-4Z" transform="translate(2 -2) scale(.7)"/></svg>`
+  };
+
+  /* ---------- the week ---------- */
+  const NIGHTS = [
+    { id: "mon", day: "Monday",    title: "Anime Night",  icon: "anime",  c: "#B79CF2", desc: "a couple of episodes together, reacting live on call", ph: "which anime + episode?" },
+    { id: "tue", day: "Tuesday",   title: "Game Night",   icon: "game",   c: "#5FC9AC", desc: "co-op, party games, or a little friendly rivalry",     ph: "what are we playing?" },
+    { id: "wed", day: "Wednesday", title: "Series Night", icon: "series", c: "#F7A084", desc: "our show, one episode at a time. cliffhangers allowed", ph: "which show + episode?" },
+    { id: "thu", day: "Thursday",  title: "Movie Night",  icon: "movie",  c: "#F28DAF", desc: "one full movie, snacks ready, call on",                ph: "which movie?" },
+    { id: "fri", day: "Friday",    title: "Game Night",   icon: "game",   c: "#74B3EE", desc: "round two. a new game or an old favourite",           ph: "what are we playing?" },
+    { id: "sat", day: "Saturday",  title: "Movie Night",  icon: "movie",  c: "#F2BA4A", desc: "a cosy one, or a double feature if we feel like it",  ph: "which movie?" },
+    { id: "sun", day: "Sunday",    title: "Anime Night",  icon: "anime",  c: "#D883D6", desc: "just one more episode (we will say that many times)", ph: "which anime + episode?" }
+  ];
+  const ROT = [-1.2, 0.9, -0.7, 1.1, 0.8, -1.0, 1.2, -0.8];
+
+  /* ---------- who am I ---------- */
+  const $ = (id) => document.getElementById(id);
+  let who = null;
+  try { who = localStorage.getItem("nights_who"); } catch (e) {}
+  if (who !== "a" && who !== "b") who = null;
+  const nameOf = (k) => NAMES[k] || "someone";
+
+  function renderWhoBar() {
+    const bar = $("who-bar");
+    bar.textContent = "";
+    bar.append("you are: " + nameOf(who) + " ");
+    const sw = document.createElement("button");
+    sw.textContent = "(switch)";
+    sw.onclick = () => { $("overlay").style.display = "grid"; };
+    bar.append(sw);
+  }
+  function chooseWho(k) {
+    who = k;
+    try { localStorage.setItem("nights_who", k); } catch (e) {}
+    $("overlay").style.display = "none";
+    renderWhoBar();
+  }
+  ["a", "b"].forEach((k) => {
+    const b = document.createElement("button");
+    b.textContent = NAMES[k];
+    b.onclick = () => chooseWho(k);
+    $("who-buttons").append(b);
+  });
+  if (who) renderWhoBar(); else $("overlay").style.display = "grid";
+
+  /* ---------- helpers ---------- */
+  function showError(msg) {
+    const b = $("banner");
+    b.textContent = msg;
+    b.style.display = "block";
+  }
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  const saveErr = (e) => {
+    console.error(e);
+    showError("Couldn't save. Check that your Firestore rules allow reads and writes (see setup notes).");
+  };
+
+  /* ---------- build cards ---------- */
+  const grid = $("grid");
+  const refs = {};   // id -> { pick, note, meta, watched }
+  const data = {};   // id -> latest doc data
+
+  NIGHTS.forEach((n, i) => {
+    const card = el("article", "card");
+    card.style.setProperty("--c", n.c);
+    card.style.setProperty("--rot", ROT[i] + "deg");
+    card.style.setProperty("--tape", (i % 2 ? 3 : -3) + "deg");
+
+    const top = el("div", "card-top");
+    top.append(el("span", "day", n.day), el("span", "pill", "10:00 PM"));
+
+    const head = el("div", "headline");
+    const icon = el("div", "icon"); icon.innerHTML = ICONS[n.icon]; // static markup only
+    head.append(icon, el("div", "title", n.title));
+
+    const desc = el("p", "desc", n.desc);
+
+    const l1 = el("label", "field", "tonight's pick");
+    const pick = el("input"); pick.type = "text"; pick.placeholder = n.ph; pick.maxLength = 80;
+    const l2 = el("label", "field", "little note");
+    const note = el("input"); note.type = "text"; note.placeholder = "snacks, mood, anything"; note.maxLength = 120;
+
+    const foot = el("div", "card-foot");
+    const watched = el("button", "watched", "watched together");
+    const meta = el("div", "meta", "");
+    foot.append(watched, meta);
+
+    card.append(top, head, desc, l1, pick, l2, note, foot);
+    grid.append(card);
+    refs[n.id] = { pick, note, meta, watched };
+
+    // save (debounced)
+    let t;
+    const queueSave = () => {
+      meta.textContent = "saving...";
+      clearTimeout(t);
+      t = setTimeout(() => {
+        if (!who) { $("overlay").style.display = "grid"; return; }
+        setDoc(doc(db, "nights", n.id), {
+          pick: pick.value.trim(), note: note.value.trim(),
+          by: who, updatedAt: serverTimestamp()
+        }, { merge: true }).then(() => { meta.textContent = "saved"; }).catch(saveErr);
+      }, 600);
+    };
+    pick.addEventListener("input", queueSave);
+    note.addEventListener("input", queueSave);
+
+    watched.addEventListener("click", () => {
+      if (!who) { $("overlay").style.display = "grid"; return; }
+      const now = !(data[n.id] && data[n.id].watched);
+      setDoc(doc(db, "nights", n.id), { watched: now, by: who, updatedAt: serverTimestamp() }, { merge: true })
+        .catch(saveErr);
+      if (now) {
+        addDoc(collection(db, "log"), {
+          title: n.title, pick: pick.value.trim() || "(no pick written)",
+          note: note.value.trim(), by: who, createdAt: serverTimestamp()
+        }).catch(saveErr);
+      }
+    });
+  });
+
+  // the every-day card
+  (function () {
+    const card = el("article", "card daily");
+    card.style.setProperty("--c", "#E8648A");
+    card.style.setProperty("--rot", ROT[7] + "deg");
+    const top = el("div", "card-top");
+    top.append(el("span", "day", "Every Day"), el("span", "pill", "no set time"));
+    const head = el("div", "headline");
+    const icon = el("div", "icon"); icon.innerHTML = ICONS.heart;
+    head.append(icon, el("div", "title", "Catch-up Time"));
+    const desc = el("p", "desc", "call, video call, voice notes, chats. anytime we are both free");
+    const doodles = el("div", "doodles", "♥ ✦ ♥");
+    card.append(top, head, desc, doodles);
+    grid.append(card);
+  })();
+
+  /* ---------- live sync: nights ---------- */
+  onSnapshot(collection(db, "nights"), (snap) => {
+    snap.forEach((d) => {
+      const r = refs[d.id];
+      if (!r) return;
+      const v = d.data({ serverTimestamps: "estimate" });
+      data[d.id] = v;
+      if (document.activeElement !== r.pick) r.pick.value = v.pick || "";
+      if (document.activeElement !== r.note) r.note.value = v.note || "";
+      r.watched.classList.toggle("on", !!v.watched);
+      r.watched.textContent = v.watched ? "watched together ♥" : "watched together";
+      if (!snap.metadata.hasPendingWrites && v.by) r.meta.textContent = "last edit: " + nameOf(v.by);
+    });
+  }, (err) => {
+    console.error(err);
+    showError("Can't reach the database. Make sure Firestore is created and its rules allow access.");
+  });
+
+  /* ---------- live sync: journal ---------- */
+  onSnapshot(query(collection(db, "log"), orderBy("createdAt", "desc"), limit(15)), (snap) => {
+    const box = $("journal");
+    box.textContent = "";
+    if (snap.empty) {
+      box.append(el("div", "empty", 'nothing here yet. tick "watched together" on a card and it lands here.'));
+      return;
+    }
+    snap.forEach((d) => {
+      const v = d.data({ serverTimestamps: "estimate" });
+      const row = el("div", "entry");
+      const dt = v.createdAt && v.createdAt.toDate ? v.createdAt.toDate() : new Date();
+      row.append(
+        el("span", "d", dt.toLocaleDateString("en-IN", { day: "numeric", month: "short" })),
+        el("span", "k", v.title || ""),
+        el("span", "p", v.pick + (v.note ? "  (" + v.note + ")" : "")),
+        el("span", "b", "added by " + nameOf(v.by))
+      );
+      box.append(row);
+    });
+  }, (err) => console.error(err));
+
+  /* ---------- fresh week ---------- */
+  $("fresh").addEventListener("click", () => {
+    if (!confirm("Clear all the 'watched together' ticks for a new week? Your journal stays.")) return;
+    NIGHTS.forEach((n) => {
+      setDoc(doc(db, "nights", n.id), { watched: false }, { merge: true }).catch(saveErr);
+    });
+  });
+</script>
+</body>
+</html>
